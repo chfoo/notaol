@@ -92,6 +92,7 @@ class Packet(object):
         self.type = results[5]
 
     def parse(self, data):
+        '''Parse a complete packet including the end stop marker.'''
         self.parse_header(data[:8])
         self.data = data[8:-1]
         self.stop = data[-1:]
@@ -105,6 +106,7 @@ class Packet(object):
             )
 
     def data_to_payload(self):
+        '''Parse the data for the payload object.'''
         if self.type == PacketType.init:
             self.payload = InitData()
             self.payload.parse(self.data)
@@ -112,13 +114,16 @@ class Packet(object):
             raise Exception('Unhandled data type')
 
     def payload_to_data(self):
+        '''Convert the payload object to bytes and apply it.'''
         self.data = self.payload.to_bytes()
         self.size = len(self.data)
 
     def compute_checksum(self):
+        '''Compute and apply the checksum.'''
         data = self.to_bytes()[3:-1]
 
         self.crc = Packet.crc_func(data)
 
     def to_bytes(self):
+        '''Return the packet as bytes.'''
         return self.header_to_bytes() + self.data + self.stop

@@ -80,6 +80,7 @@ class InitData(BasePayload):
         self.speed = 0xb207
 
     def parse(self, data):
+        '''Parse the data.'''
         if len(data) == self.TYPE_1_LENGTH:
             results = self.field_struct_1.unpack(data)
         elif len(data) == self.TYPE_2_LENGTH:
@@ -124,6 +125,7 @@ class InitData(BasePayload):
             assert len(results) == 29
 
     def to_bytes(self, length=TYPE_2_LENGTH):
+        '''Convert to bytes.'''
         if length == self.TYPE_1_LENGTH:
             return self.field_struct_2.pack(
                 self.platform,
