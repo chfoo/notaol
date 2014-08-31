@@ -30,3 +30,11 @@ class TestPacket(unittest.TestCase):
 
         self.assertEqual(157 << 8 | 17, packet.payload.client_version)
         self.assertEqual(SAMPLE_INIT_PACKET, packet.to_bytes())
+
+    def test_checksum(self):
+        packet = Packet()
+        packet.parse(SAMPLE_INIT_PACKET)
+
+        packet.payload_to_data()
+        packet.compute_checksum()
+        self.assertEqual(0xb35f, packet.crc)

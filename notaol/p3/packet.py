@@ -1,6 +1,9 @@
 '''Message format.'''
-import struct
 import enum
+import struct
+
+import crcmod
+
 from notaol.p3.init import InitData
 
 
@@ -51,6 +54,7 @@ class Packet(object):
         payload: Object representing the :attr:`data`.
     '''
     header_struct = struct.Struct(HEADER_FORMAT)
+    crc_func = crcmod.predefined.mkPredefinedCrcFun('crc-16')
 
     def __init__(self):
         self.sync = PACKET_START
@@ -109,6 +113,12 @@ class Packet(object):
 
     def payload_to_data(self):
         self.data = self.payload.to_bytes()
+        self.size = len(self.data)
+
+    def compute_checksum(self):
+        data = self.to_bytes()[3:-1]
+
+        self.crc = Packet.crc_func(data)
 
     def to_bytes(self):
-        return self.header_to_bytes() + self.payload.to_bytes() + self.stop
+        return self.header_to_bytes() + self.data + self.stop
