@@ -31,6 +31,17 @@ class TestPacket(unittest.TestCase):
         self.assertEqual(157 << 8 | 17, packet.payload.client_version)
         self.assertEqual(SAMPLE_INIT_PACKET, packet.to_bytes())
 
+    def test_length(self):
+        packet = Packet()
+        packet.parse(SAMPLE_INIT_PACKET)
+
+        packet.compute_length()
+        self.assertEqual(55, packet.length)
+
+        packet.data = b''
+        packet.compute_length()
+        self.assertEqual(3, packet.length)
+
     def test_checksum(self):
         packet = Packet()
         packet.parse(SAMPLE_INIT_PACKET)

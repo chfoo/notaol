@@ -43,7 +43,8 @@ class Packet(object):
     Attributes:
         sync (bytes): 1 byte. Indicates start of packet.
         crc (int): 2 bytes. 16 bit CRC.
-        length (int): 2 bytes. Size of the data.
+        length (int): 2 bytes. Size of the data including sequence numbers and
+            type flags.
         tx_seq (int): 1 byte. The transmission sequence number.
         rx_seq (int): 1 byte. The receive sequence number.
         type_flag (int): 1 byte. The type of this message packet. The most
@@ -116,7 +117,10 @@ class Packet(object):
     def payload_to_data(self):
         '''Convert the payload object to bytes and apply it.'''
         self.data = self.payload.to_bytes()
-        self.size = len(self.data)
+
+    def compute_length(self):
+        '''Compute length field and apply it.'''
+        self.length = len(self.data) + 3
 
     def compute_checksum(self):
         '''Compute and apply the checksum.'''
