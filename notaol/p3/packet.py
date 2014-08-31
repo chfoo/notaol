@@ -4,12 +4,17 @@ import struct
 
 import crcmod
 
-from notaol.p3.init import InitData
+from notaol.p3.control import AckPayload, HeartbeatPayload, SSPayload, \
+    SSRPayload, NakPayload
+from notaol.p3.data import DataPayload
+from notaol.p3.init import InitPayload
 
 
 HEADER_FORMAT = '!cHHBBB'
 PACKET_START = b'\x5a'
 PACKET_END = b'\r'
+HEADER_LENGTH = 8
+HEADER_SIZE_OFFSET = 3
 
 
 class PacketType(enum.IntEnum):
@@ -35,6 +40,19 @@ class PacketType(enum.IntEnum):
     '''Heartbeat. Reply with ACK.'''
 
 
+PAYLOAD_MAP = {
+    PacketType.ack: AckPayload,
+    PacketType.ss: SSPayload,
+    PacketType.ssr: SSRPayload,
+    PacketType.nak: NakPayload,
+    PacketType.init: InitPayload,
+    PacketType.data: DataPayload,
+    PacketType.heartbeat: HeartbeatPayload,
+}
+PAYLOAD_TO_TYPE_MAP = dict([
+    (payload, value) for value, payload in PAYLOAD_MAP.items()])
+
+
 class Packet(object):
     '''A message in the P3 protocol.
 
@@ -57,16 +75,19 @@ class Packet(object):
     header_struct = struct.Struct(HEADER_FORMAT)
     crc_func = crcmod.predefined.mkPredefinedCrcFun('crc-16')
 
-    def __init__(self):
+    def __init__(self, payload=None):
         self.sync = PACKET_START
-        self.crc = None
-        self.length = None
-        self.tx_seq = None
-        self.rx_seq = None
+        self.crc = 0
+        self.length = 3
+        self.tx_seq = 0x7f
+        self.rx_seq = 0x7f
         self.type_flag = None
         self.data = None
         self.stop = PACKET_END
         self.payload = None
+
+        if payload is not None:
+            self.apply_payload(payload)
 
     @property
     def type(self):
@@ -77,10 +98,11 @@ class Packet(object):
         self.type_flag = type_val | 0x80
 
     def __str__(self):
-        return '<Packet at {obj_id} Len={length} Tx={tx} Rx={rx} Type={type}>'\
-               .format(obj_id=id(self), length=self.length,
-                       tx=self.tx_seq, rx=self.rx_seq,
-                       type=self.type)
+        return ('<Packet at {obj_id} Len={length} Tx={tx} Rx={rx} Type={type} '
+                'Payload={payload}>'
+                ).format(obj_id=id(self), length=self.length,
+                         tx=self.tx_seq, rx=self.rx_seq,
+                         type=self.type, payload=self.payload)
 
     def parse_header(self, data):
         '''Parse the 8-byte header.'''
@@ -91,6 +113,12 @@ class Packet(object):
         self.tx_seq = results[3]
         self.rx_seq = results[4]
         self.type = results[5]
+
+    def parse_body(self, data):
+        '''Parse data after the header including the end stop marker.'''
+        self.data = data[:-1]
+        self.stop = data[-1:]
+        self.data_to_payload()
 
     def parse(self, data):
         '''Parse a complete packet including the end stop marker.'''
@@ -108,8 +136,10 @@ class Packet(object):
 
     def data_to_payload(self):
         '''Parse the data for the payload object.'''
-        if self.type == PacketType.init:
-            self.payload = InitData()
+        payload_class = PAYLOAD_MAP.get(self.type)
+
+        if payload_class:
+            self.payload = payload_class()
             self.payload.parse(self.data)
         else:
             raise Exception('Unhandled data type')
@@ -120,7 +150,7 @@ class Packet(object):
 
     def compute_length(self):
         '''Compute length field and apply it.'''
-        self.length = len(self.data) + 3
+        self.length = len(self.data) + HEADER_SIZE_OFFSET
 
     def compute_checksum(self):
         '''Compute and apply the checksum.'''
@@ -131,3 +161,15 @@ class Packet(object):
     def to_bytes(self):
         '''Return the packet as bytes.'''
         return self.header_to_bytes() + self.data + self.stop
+
+    def prepare(self):
+        '''Prepare the packet for transmission.'''
+        self.payload_to_data()
+        self.compute_length()
+        self.compute_checksum()
+
+    def apply_payload(self, payload):
+        '''Apply the payload.'''
+        self.payload = payload
+        self.type = PAYLOAD_TO_TYPE_MAP[type(payload)]
+        self.prepare()

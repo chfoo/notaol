@@ -9,7 +9,7 @@ class Platform(IntEnum):
     mac = 0x0c
 
 
-class InitData(BasePayload):
+class InitPayload(BasePayload):
     '''Data sent during INIT.
 
     Attributes:
@@ -78,6 +78,9 @@ class InitData(BasePayload):
         self.language_4 = 0
         self.unknown2 = 1
         self.speed = 0xb207
+
+    def __str__(self):
+        return '<INIT Payload>'
 
     def parse(self, data):
         '''Parse the data.'''
