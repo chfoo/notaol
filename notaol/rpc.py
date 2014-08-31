@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 
 from notaol.p3.client import Client
@@ -17,12 +18,52 @@ class RPCServer(object):
     def run(self):
         _logger.info('RPC session started on port %s',
                      self._writer.get_extra_info('sockname'))
-        yield from self._client.connect()
+
+        command_map = {
+            'connect': self._connect
+        }
 
         while True:
-            packet = yield from self._client._receive_queue.get()
+            line = yield from self._reader.readline()
 
-            self._writer.write(str(packet).encode())
+            if not line.endswith(b'\n'):
+                self._close()
+                break
+
+            try:
+                request = json.loads(line.decode('utf-8'))
+            except ValueError:
+                yield from self._reply(
+                    {'status': 'error', 'reason': 'syntax error'})
+                continue
+
+            if 'command' not in request:
+                yield from self._reply(
+                    {'status': 'error', 'reason': 'missing command'})
+                continue
+
+            command = command_map.get(request['command'])
+
+            if command:
+                yield from command()
+            else:
+                yield from self._reply(
+                    {'status': 'error', 'reason': 'unknown command'})
+
+        _logger.info('RPC session ended on port %s',
+                     self._writer.get_extra_info('sockname'))
+
+    @asyncio.coroutine
+    def _reply(self, response):
+        self._writer.write(json.dumps(response))
+
+    @asyncio.coroutine
+    def _connect(self):
+        yield from self._client.connect()
+
+    def _close(self):
+        self._writer.close()
+        self._client.close()
 
 
 @asyncio.coroutine

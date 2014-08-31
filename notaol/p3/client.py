@@ -25,7 +25,6 @@ class Client(object):
     def __init__(self):
         self._stream = Stream()
         self._running = False
-        self._receive_queue = asyncio.Queue(maxsize=10)
         self._read_task = None
 
     def close(self):
@@ -44,7 +43,7 @@ class Client(object):
                 self.close()
                 raise
 
-            yield from self._receive_queue.put(packet)
+            # TODO: do something with packet
 
     @asyncio.coroutine
     def connect(self):

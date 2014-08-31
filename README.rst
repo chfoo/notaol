@@ -13,7 +13,9 @@ Notaol is written for Python 3.4 or greater.
 1. ``pip3 install crcmod``
 2. ``python3 -m notaol.rpc``
 3. Connect to localhost on port 5000 using telnet.
-4. See some logging output on the Python process and some data on telnet session.
+4. Type ``{"command": "connect"}`` on telnet.
+5. See some logging on the Python process.
+6. Type CTRL+], Enter, CTRL+D to quit telnet.
 
 More to come!
 
