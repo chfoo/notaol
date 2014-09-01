@@ -8,7 +8,7 @@ TokenMetadata = collections.namedtuple(
     ['token', 'description', 'category', 'flags', 'arg', 'form']
 )
 
-TOKEN_METADATA = \
+TOKEN_METADATA = [
 TokenMetadata('AA', 'Normal chat message', None, None, None, None),
 TokenMetadata('AB', 'Chat message with name', None, None, None, None),
 TokenMetadata('AC', 'Chat message with count', None, None, None, None),

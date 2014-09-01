@@ -92,7 +92,7 @@ def main():
         for row in read_token_html(filename):
             rows.append(row)
 
-    print('TOKEN_METADATA = \\')
+    print('TOKEN_METADATA = [')
 
     for row in rows:
         print('TokenMetadata{},'.format(pprint.pformat(tuple(row))))
