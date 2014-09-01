@@ -55,7 +55,9 @@ class RPCServer(object):
 
     @asyncio.coroutine
     def _reply(self, response):
-        self._writer.write(json.dumps(response))
+        self._writer.write(json.dumps(response).encode('utf-8'))
+        self._writer.write(b'\n')
+        yield from self._writer.drain()
 
     @asyncio.coroutine
     def _connect(self):

@@ -1,41 +1,34 @@
 from notaol.p3.payload import BasePayload
 
 
-class AckPayload(BasePayload):
+class EmptyPayload(BasePayload):
     def parse(self, data):
         pass
 
+    def to_bytes(self):
+        return b''
+
+
+class AckPayload(EmptyPayload):
     def __str__(self):
         return '<ACK Payload>'
 
 
-class NakPayload(BasePayload):
-    def parse(self, data):
-        pass
-
+class NakPayload(EmptyPayload):
     def __str__(self):
         return '<NAK Payload>'
 
 
-class SSPayload(BasePayload):
-    def parse(self, data):
-        pass
-
+class SSPayload(EmptyPayload):
     def __str__(self):
         return '<SS Payload>'
 
 
-class SSRPayload(BasePayload):
-    def parse(self, data):
-        pass
-
+class SSRPayload(EmptyPayload):
     def __str__(self):
         return '<SSR Payload>'
 
 
-class HeartbeatPayload(BasePayload):
-    def parse(self, data):
-        pass
-
+class HeartbeatPayload(EmptyPayload):
     def __str__(self):
         return '<Heartbeat Payload>'

@@ -57,12 +57,13 @@ class Stream(object):
         packet = Packet()
         header = yield from self._reader.readexactly(HEADER_LENGTH)
 
-        _logger.debug('Got header %s', header)
-
         packet.parse_header(header)
+        _logger.debug('Got header %s', packet)
 
         # header is 8 bytes + data + stop byte
         bytes_to_read = packet.length - HEADER_SIZE_OFFSET + 1
+
+        _logger.debug('Need to read %d bytes', bytes_to_read)
 
         data = yield from self._reader.readexactly(bytes_to_read)
 

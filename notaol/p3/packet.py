@@ -98,8 +98,8 @@ class Packet(object):
         self.type_flag = type_val | 0x80
 
     def __str__(self):
-        return ('<Packet at {obj_id} Len={length} Tx={tx} Rx={rx} Type={type} '
-                'Payload={payload}>'
+        return ('<Packet at {obj_id} Len={length} Tx=0x{tx:x} Rx=0x{rx:x} '
+                'Type=0x{type:x} Payload={payload}>'
                 ).format(obj_id=id(self), length=self.length,
                          tx=self.tx_seq, rx=self.rx_seq,
                          type=self.type, payload=self.payload)

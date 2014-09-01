@@ -7,3 +7,7 @@ class BasePayload(object, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def parse(self, data):
         '''Parse payload data'''
+
+    @abc.abstractmethod
+    def to_bytes(self):
+        '''Convert to bytes'''

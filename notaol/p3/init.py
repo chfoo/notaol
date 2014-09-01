@@ -22,7 +22,7 @@ class InitPayload(BasePayload):
         release_month (int): 1 byte.
         release_day (int): 1 byte.
         customer_class (int): 2 byte.
-        timestamp (int): 4 bytes. UDO timestamp.
+        timestamp (int): 4 bytes. Update disk operation (UDO) timestamp.
         dos_version (int) 2 bytes. DOS major and minor version.
         session_flags (int): 2 bytes.
         video_type (int): 1 byte.
