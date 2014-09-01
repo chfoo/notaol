@@ -93,7 +93,11 @@ def main():
             rows.append(row)
 
     print('TOKEN_METADATA = \\')
-    pprint.pprint(rows)
+
+    for row in rows:
+        print('TokenMetadata{},'.format(pprint.pformat(tuple(row))))
+
+    print(']')
 
 
 def read_1998_txt():
