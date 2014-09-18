@@ -1,10 +1,80 @@
 import enum
 
 
-class Atom(enum.Enum):
+class AtomProtocol(enum.IntEnum):
     ACT = 2
     '''Responsible for controling the action streams in a form'''
+    ACTIVEX = 54
+    AD = 39
+    ADP = 66
+    APP = 40
+    ARTEXP = 62
+    ASYNC = 13
+    '''Handles messageboxes and screen name issues'''
+    BLANK = 52
+    BUDDY = 73
+    BUF = 4
+    '''Used to handle the client buffer system. These buffers hold data sent to the host or stored in main.idx'''
+    CCL = 34
+    CHART = 23
+    CHAT = 11
+    CM = 10
+    '''Manages all the *.tol tools in the /tool/ directory. Verifys tools for TODs and replacements'''
+    COMIT = 74
+    DE = 3
+    '''Works directly with client buffers to extract and store data from objects'''
+    DICE = 57
+    DOC = 31
+    DOD = 27
+    DPC = 76
+    FM = 8
+    GALLERY = 56
+    HFS = 51
+    HTMLVIEW = 75
+    IDB = 5
+    '''Used to store and retrieve data from main.idx'''
+    IF = 15
+    '''Responsible for allowing the programmer to test conditions'''
+    IMAGE = 22
+    IMGXFER = 21
+    IRC = 30
+    JAVA = 49
+    LM = 9
+    MAN = 1
+    '''Responsible for the structure of forms and creation of objects'''
+    MAP = 69
+    MAT = 16
+    '''Responsible for setting flags used to define forms created with MAN'''
+    MERC = 43
+    MF = 63
+    MIP = 17
+    MMI = 20
+    MORG = 24
+    MT = 42
+    P3 = 35
+    PHONE = 60
+    PICTALK = 29
+    PLUGIN = 64
+    RADIO = 28
+    RICH = 25
+    SAGE = 70
+    SAP = 77
+    SEC_IP = 55
+    SLIDER = 65
+    SM = 14
+    '''A collection of shorthand atoms'''
+    SPELL = 61
+    UNI = 0
+    '''Responsible for governing the flow of streams'''
+    VAR = 12
+    '''Responsible for movign data in and out of the client registers'''
+    VID = 53
+    VRM = 47
+    WWW = 48
+    XFER = 7
 
+
+class Atom(tuple, enum.Enum):
     act_set_criterion = (2, 0)
     act_do_action = (2, 1)
     act_set_inheritance = (2, 2)
@@ -39,7 +109,6 @@ class Atom(enum.Enum):
     act_format_quote = (2, 54)
     act_replace_popup_menu_action = (2, 55)
 
-    ACTIVEX = 54
     activex_manage = (54, 0)
     activex_id = (54, 1)
     activex_classid = (54, 2)
@@ -51,7 +120,6 @@ class Atom(enum.Enum):
     activex_param = (54, 8)
     activex_script_shutdown = (54, 9)
 
-    AD = 39
     ad_add = (39, 0)
     ad_store = (39, 1)
     ad_modify = (39, 2)
@@ -59,7 +127,6 @@ class Atom(enum.Enum):
     ad_to = (39, 4)
     ad_cc = (39, 5)
 
-    ADP = 66
     adp_start = (66, 1)
     adp_end = (66, 2)
     adp_eid = (66, 3)
@@ -76,17 +143,12 @@ class Atom(enum.Enum):
     adp_transaction_type = (66, 15)
     adp_meter_upload_cancel = (66, 16)
 
-    APP = 40
     app_command = (40, 4)
 
-    ARTEXP = 62
     artexp_version = (62, 0)
     artexp_get_num_assets = (62, 1)
     artexp_show_asset = (62, 2)
     artexp_set_context = (62, 3)
-
-    ASYNC = 13
-    '''Handles messageboxes and screen name issues'''
 
     async_exit = (13, 0)
     async_password = (13, 1)
@@ -148,17 +210,12 @@ class Atom(enum.Enum):
     async_voice_recognition = (13, 57)
     async_get_os = (13, 58)
 
-    BLANK = 52
     blank_test = (52, 0)
     blank_get_form = (52, 1)
     blank_get_ver = (52, 2)
 
-    BUDDY = 73
     buddy_action_command = (73, 0)
     buddy_connect_string = (73, 1)
-
-    BUF = 4
-    '''Used to handle the client buffer system. These buffers hold data sent to the host or stored in main.idx'''
 
     buf_start_buffer = (4, 0)
     buf_add_atom_pointer = (4, 1)
@@ -200,7 +257,6 @@ class Atom(enum.Enum):
     buf_set_security_tokens = (4, 39)
     buf_meter_abort = (4, 40)
 
-    CCL = 34
     ccl_dial = (34, 0)
     ccl_hang_up = (34, 1)
     ccl_install_modem_driver = (34, 2)
@@ -221,7 +277,6 @@ class Atom(enum.Enum):
     ccl_cancel_enum_devices = (34, 18)
     ccl_select_com_device = (34, 19)
 
-    CHART = 23
     chart_type = (23, 0)
     chart_xmax = (23, 1)
     chart_ymax = (23, 2)
@@ -325,7 +380,6 @@ class Atom(enum.Enum):
     chart_set_margins = (23, 101)
     chart_add_date_legend_text = (23, 102)
 
-    CHAT = 11
     chat_room_open = (11, 0)
     chat_add_user = (11, 1)
     chat_end_object = (11, 2)
@@ -362,9 +416,6 @@ class Atom(enum.Enum):
     chat_add_message_text = (11, 34)
     chat_add_message_date_time = (11, 35)
     chat_end_message = (11, 36)
-
-    CM = 10
-    '''Manages all the *.tol tools in the /tool/ directory. Verifys tools for TODs and replacements'''
 
     cm_mark_tool_invalid = (10, 0)
     cm_set_byte_count = (10, 1)
@@ -435,7 +486,6 @@ class Atom(enum.Enum):
     cm_tb_win_getregistrykey = (10, 88)
     cm_tb_get_physical_memsize = (10, 89)
 
-    COMIT = 74
     comit_begin = (74, 0)
     comit_id = (74, 1)
     comit_setup_filename = (74, 2)
@@ -460,9 +510,6 @@ class Atom(enum.Enum):
     comit_setup_library = (74, 21)
     comit_setup_description = (74, 22)
 
-    DE = 3
-    '''Works directly with client buffers to extract and store data from objects'''
-
     de_set_extraction_type = (3, 0)
     de_data = (3, 1)
     de_start_extraction = (3, 2)
@@ -481,7 +528,6 @@ class Atom(enum.Enum):
     de_validate = (3, 16)
     de_typed_data = (3, 17)
 
-    DICE = 57
     dice_set_context_tool = (57, 0)
     dice_set_context_locality = (57, 1)
     dice_end_context = (57, 2)
@@ -527,7 +573,6 @@ class Atom(enum.Enum):
     dice_phone_clear_type = (57, 42)
     dice_connectoid_action = (57, 43)
 
-    DOC = 31
     doc_manage = (31, 0)
     doc_edit_action = (31, 1)
     doc_add_url = (31, 2)
@@ -547,7 +592,6 @@ class Atom(enum.Enum):
     doc_get_font_style = (31, 17)
     doc_get_text_alignment = (31, 18)
 
-    DOD = 27
     dod_start = (27, 0)
     dod_type = (27, 1)
     dod_gid = (27, 2)
@@ -566,7 +610,6 @@ class Atom(enum.Enum):
     dod_tag = (27, 15)
     dod_hints_mismatch = (27, 16)
 
-    DPC = 76
     dpc_exchange_account_info = (76, 0)
 
     EXAPI = 26
@@ -643,7 +686,6 @@ class Atom(enum.Enum):
     exapi_get_ver_info_wreplytoken = (26, 92)
     exapi_set_reply_token = (26, 93)
 
-    FM = 8
     fm_start = (8, 0)
     fm_end = (8, 1)
     fm_item_type = (8, 2)
@@ -693,7 +735,6 @@ class Atom(enum.Enum):
     fm_dialog_cancel_get = (8, 47)
     fm_edit_attachment_command = (8, 48)
 
-    GALLERY = 56
     gallery_create = (56, 0)
     gallery_close = (56, 1)
     gallery_view = (56, 2)
@@ -705,7 +746,6 @@ class Atom(enum.Enum):
     gallery_change_dir = (56, 8)
     gallery_get_view_filename = (56, 9)
 
-    HFS = 51
     hfs_attr_field_mapping = (51, 0)
     hfs_cmd_form_gid = (51, 1)
     hfs_cmd_form_name = (51, 2)
@@ -766,12 +806,8 @@ class Atom(enum.Enum):
     hfs_attr_end_raw_display = (51, 57)
     hfs_cmd_aspp_id = (51, 58)
 
-    HTMLVIEW = 75
     htmlview_manage = (75, 0)
     htmlview_notify_action = (75, 1)
-
-    IDB = 5
-    '''Used to store and retrieve data from main.idx'''
 
     idb_atr_dod = (5, 0)
     idb_start_obj = (5, 1)
@@ -807,9 +843,6 @@ class Atom(enum.Enum):
     idb_get_data_null_terminated = (5, 32)
     idb_check_and_set_ftv = (5, 33)
     idb_clear_ftv = (5, 34)
-
-    IF = 15
-    '''Responsible for allowing the programmer to test conditions'''
 
     if_numa_false_then = (15, 0)
     if_numb_true_then = (15, 1)
@@ -861,7 +894,6 @@ class Atom(enum.Enum):
     if_debug_true_then = (15, 103)
     if_debug_false_then = (15, 104)
 
-    IMAGE = 22
     image_set_file_name = (22, 0)
     image_attr_rotate = (22, 1)
     image_flip_horizontal = (22, 2)
@@ -906,7 +938,6 @@ class Atom(enum.Enum):
     image_attr_scale_display = (22, 42)
     image_attr_scale_best_fit = (22, 43)
 
-    IMGXFER = 21
     imgxfer_set_context = (21, 0)
     imgxfer_end_context = (21, 1)
     imgxfer_set_rid = (21, 2)
@@ -916,20 +947,17 @@ class Atom(enum.Enum):
     imgxfer_get_spoolfile_name = (21, 7)
     imgxfer_preset_keep_spool = (21, 8)
 
-    IRC = 30
     irc_manage = (30, 0)
     irc_enter = (30, 1)
     irc_join = (30, 2)
     irc_create = (30, 3)
     irc_user_info = (30, 4)
 
-    JAVA = 49
     java_manage = (49, 0)
     java_execute = (49, 1)
     java_mimetype = (49, 2)
     java_args = (49, 3)
 
-    LM = 9
     lm_open_window = (9, 0)
     lm_close_window = (9, 1)
     lm_user_delete_item = (9, 2)
@@ -968,9 +996,6 @@ class Atom(enum.Enum):
     lm_table_get_item_value = (9, 38)
     lm_table_set_item_value = (9, 39)
     lm_table_encrypt_table = (9, 40)
-
-    MAN = 1
-    '''Responsible for the structure of forms and creation of objects'''
 
     man_start_object = (1, 0)
     man_start_sibling = (1, 1)
@@ -1074,7 +1099,6 @@ class Atom(enum.Enum):
     man_set_context_next_selection = (1, 112)
     man_accessibility_setting = (1, 113)
 
-    MAP = 69
     map_pp3_open_url = (69, 0)
     map_pp3_open_site_mgr = (69, 1)
     map_pp3_art_url = (69, 2)
@@ -1099,9 +1123,6 @@ class Atom(enum.Enum):
     map_ygp_stream = (69, 157)
     map_ygp_stream_id = (69, 158)
     map_ygp_doaction_arg = (69, 159)
-
-    MAT = 16
-    '''Responsible for setting flags used to define forms created with MAN'''
 
     mat_bool_vertical_scroll = (16, 0)
     mat_bool_disabled = (16, 1)
@@ -1303,7 +1324,6 @@ class Atom(enum.Enum):
     mat_bool_default_trigger = (16, 203)
     mat_use_style_guide = (16, 204)
 
-    MERC = 43
     merc_manage = (43, 0)
     merc_select_bank = (43, 1)
     merc_settings = (43, 2)
@@ -1311,13 +1331,11 @@ class Atom(enum.Enum):
     merc_about = (43, 4)
     merc_close = (43, 5)
 
-    MF = 63
     mf_add_filter = (63, 1)
     mf_add_condition = (63, 2)
     mf_modify_object = (63, 3)
     mf_save_object = (63, 4)
 
-    MIP = 17
     mip_start_message = (17, 0)
     mip_header_complete = (17, 1)
     mip_end_message = (17, 2)
@@ -1403,7 +1421,6 @@ class Atom(enum.Enum):
     mip_profile = (17, 84)
     mip_continue_context = (17, 85)
 
-    MMI = 20
     mmi_open_file = (20, 0)
     mmi_atr_toolbar = (20, 1)
     mmi_atr_rid_play = (20, 2)
@@ -1430,7 +1447,6 @@ class Atom(enum.Enum):
     mmi_cancel_xfer = (20, 24)
     mmi_playcd = (20, 25)
 
-    MORG = 24
     morg_prompt_create_folder = (24, 0)
     morg_delete_current_object = (24, 1)
     morg_view_path = (24, 2)
@@ -1490,7 +1506,6 @@ class Atom(enum.Enum):
     morg_sort_items = (24, 58)
     morg_obj_test_flag = (24, 59)
 
-    MT = 42
     mt_manage_tools = (42, 0)
     mt_bounce_tool = (42, 1)
     mt_kill_tool = (42, 2)
@@ -1516,7 +1531,6 @@ class Atom(enum.Enum):
     mt_start_edit_text = (42, 23)
     mt_super_snoop = (42, 24)
 
-    P3 = 35
     p3_start = (35, 0)
     p3_stop = (35, 1)
     p3_write = (35, 3)
@@ -1524,7 +1538,6 @@ class Atom(enum.Enum):
     p3_debug_disable_outbound = (35, 5)
     p3_debug_get_outbound_state = (35, 6)
 
-    PHONE = 60
     phone_accept_call = (60, 0)
     phone_cancel_call = (60, 1)
     phone_caller = (60, 2)
@@ -1589,7 +1602,6 @@ class Atom(enum.Enum):
     phone_wizard_end = (60, 61)
     phone_t_ui_set_screen_name = (60, 128)
 
-    PICTALK = 29
     pictalk_manage = (29, 0)
     pictalk_open_file = (29, 1)
     pictalk_control = (29, 2)
@@ -1604,14 +1616,12 @@ class Atom(enum.Enum):
     pictalk_reset_styles = (29, 11)
     pictalk_ad_manage = (29, 12)
 
-    PLUGIN = 64
     plugin_manage = (64, 0)
     plugin_execute = (64, 1)
     plugin_mimetype = (64, 2)
     plugin_fileextents = (64, 3)
     plugin_args = (64, 4)
 
-    RADIO = 28
     radio_codec = (28, 0)
     radio_atr_file_name = (28, 1)
     radio_atr_stream_name = (28, 2)
@@ -1648,7 +1658,6 @@ class Atom(enum.Enum):
     radio_pause_play = (28, 33)
     radio_resume_play = (28, 34)
 
-    RICH = 25
     rich_manage = (25, 0)
     rich_edit_action = (25, 1)
     rich_add_url = (25, 2)
@@ -1690,7 +1699,6 @@ class Atom(enum.Enum):
     rich_enable_smilie = (25, 39)
     rich_html_mode = (25, 40)
 
-    SAGE = 70
     sage_showme_start = (70, 0)
     sage_showme_end = (70, 1)
     sage_set_style = (70, 2)
@@ -1699,7 +1707,6 @@ class Atom(enum.Enum):
     sage_set_text = (70, 5)
     sage_set_play = (70, 6)
 
-    SAP = 77
     sap_abort = (77, 0)
     sap_data = (77, 1)
     sap_data_compression = (77, 2)
@@ -1708,12 +1715,10 @@ class Atom(enum.Enum):
     sap_end = (77, 5)
     sap_url = (77, 6)
 
-    SEC_IP = 55
     sec_ip_handshake_to_host = (55, 1)
     sec_ip_handshake_to_client = (55, 2)
     sec_ip_error = (55, 3)
 
-    SLIDER = 65
     slider_manage = (65, 0)
     slider_get_position = (65, 1)
     slider_set_position = (65, 2)
@@ -1721,9 +1726,6 @@ class Atom(enum.Enum):
     slider_get_max_range = (65, 4)
     slider_set_min_range = (65, 5)
     slider_get_min_range = (65, 6)
-
-    SM = 14
-    '''A collection of shorthand atoms'''
 
     sm_do_list_action = (14, 0)
     sm_end_object_with_action = (14, 1)
@@ -1761,11 +1763,7 @@ class Atom(enum.Enum):
     sm_enter_free = (14, 34)
     sm_send_selection_code = (14, 35)
 
-    SPELL = 61
     spell_rules_dlg = (61, 0)
-
-    UNI = 0
-    '''Responsible for governing the flow of streams'''
 
     uni_void = (0, 0)
     uni_start_stream = (0, 1)
@@ -1824,9 +1822,6 @@ class Atom(enum.Enum):
     uni_save_to_stream_reg = (0, 64)
     uni_reset_stream_regs = (0, 65)
     uni_string_to_gid = (0, 66)
-
-    VAR = 12
-    '''Responsible for movign data in and out of the client registers'''
 
     var_number_save = (12, 0)
     var_number_set = (12, 1)
@@ -1890,7 +1885,6 @@ class Atom(enum.Enum):
     var_string = (12, 104)
     var_data = (12, 105)
 
-    VID = 53
     vid_capture = (53, 0)
     vid_send = (53, 1)
     vid_manage = (53, 2)
@@ -1921,7 +1915,6 @@ class Atom(enum.Enum):
     vid_query_setup = (53, 27)
     vid_store_setup = (53, 28)
 
-    VRM = 47
     vrm_start_form = (47, 0)
     vrm_send_form = (47, 1)
     vrm_save_form = (47, 2)
@@ -1978,7 +1971,6 @@ class Atom(enum.Enum):
     vrm_rainman_data = (47, 75)
     vrm_fdo_datablock = (47, 76)
 
-    WWW = 48
     www_load_url = (48, 0)
     www_go_back = (48, 1)
     www_go_forward = (48, 2)
@@ -2003,7 +1995,6 @@ class Atom(enum.Enum):
     www_set_https_proxy = (48, 28)
     www_set_proxy_http = (48, 29)
 
-    XFER = 7
     xfer_abort = (7, 0)
     xfer_show_file_description = (7, 1)
     xfer_show_file_status = (7, 2)
