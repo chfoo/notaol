@@ -1,9 +1,7 @@
-import enum
-
 from notaol.fdo.datatype import DataType
 
 
-class AtomDataType(enum.Enum):
+class AtomDataType:
     act_set_criterion = DataType.crit
     act_do_action = DataType.crit
     act_set_inheritance = DataType.raw

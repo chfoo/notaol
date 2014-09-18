@@ -120,19 +120,19 @@ def serialize(file, atom_def, *args):
     file.write(bytes([atom_type_id & 0x1f, atom_sub_id & 0x1f]))
 
     for arg in args:
-        data_type = AtomDataType(atom_def)
+        data_type = getattr(AtomDataType, atom_def.name)
 
         if data_type == DataType.dword:
             arg_len = 4
             data = struct.pack('!I', arg)
         elif data_type == DataType.str:
             arg_len = len(arg) + 1
-            data = arg.encode('latin-1') + '\x00'
+            data = arg.encode('latin-1') + b'\x00'
         elif data_type == DataType.word:
             arg_len = 2
             data = struct.pack('!H', arg)
         else:
-            raise Exception('unhandled data type')
+            raise Exception('unhandled data type {}'.format(data_type))
 
         file.write(bytes([arg_len]))
         file.write(data)

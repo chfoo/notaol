@@ -1,7 +1,7 @@
 import enum
 
 
-class DataType(enum.Enum):
+class DataType(str, enum.Enum):
     na = 'na'
     raw = 'raw'
     byte = 'byte'
