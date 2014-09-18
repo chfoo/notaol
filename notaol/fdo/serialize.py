@@ -103,6 +103,8 @@ def unserialize(data):
 
         print(atom_protocol_id, atom_id, name, arg_length, arg)
 
+        yield (atom_protocol_id, atom_id, name, arg_length, arg)
+
 
 def serialize(file, atom_def, *args):
     atom_type_id, atom_sub_id = atom_def
