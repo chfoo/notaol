@@ -138,7 +138,6 @@ def serialize(file, atom_def, *args):
         file.write(bytes([arg_len]))
 
         if arg_len:
-            print(' ', data)
             file.write(data)
 
     if not args:
