@@ -45,7 +45,7 @@ class RPCServer(object):
             command = command_map.get(request['command'])
 
             if command:
-                yield from command()
+                yield from command(request)
             else:
                 yield from self._reply(
                     {'status': 'error', 'reason': 'unknown command'})
@@ -60,8 +60,12 @@ class RPCServer(object):
         yield from self._writer.drain()
 
     @asyncio.coroutine
-    def _connect(self):
+    def _connect(self, request):
+        username = request['username']
+        password = request['password']
+
         yield from self._client.connect()
+        yield from self._client.login(username, password)
 
     def _close(self):
         self._writer.close()

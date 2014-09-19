@@ -47,6 +47,7 @@ class Stream(object):
         '''
         _logger.debug('Write packet %s', packet)
         self._writer.write(packet.to_bytes())
+
         yield from self._writer.drain()
 
     @asyncio.coroutine
