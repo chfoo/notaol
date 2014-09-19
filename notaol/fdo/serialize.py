@@ -39,7 +39,7 @@ def unserialize(data):
 
         atom_type = get_atom_type(data[index])
 
-        print(' ', AtomTypeComp(atom_type))
+#         print(' ', AtomTypeComp(atom_type))
 
         if atom_type == AtomTypeComp.no_comp:
             atom_protocol_id = get_atom_value(data[index])
@@ -101,7 +101,7 @@ def unserialize(data):
         except ValueError:
             name = '(unknown atom)'
 
-        print(atom_protocol_id, atom_id, name, arg_length, arg)
+#         print(atom_protocol_id, atom_id, name, arg_length, arg)
 
         yield (atom_protocol_id, atom_id, name, arg_length, arg)
 
@@ -126,13 +126,39 @@ def serialize(file, atom_def, *args):
             arg_len = 4
             data = struct.pack('!I', arg)
         elif data_type == DataType.str:
-            arg_len = len(arg) + 1
-            data = arg.encode('latin-1') + b'\x00'
+            arg_len = len(arg)
+            data = arg
         elif data_type == DataType.word:
             arg_len = 2
             data = struct.pack('!H', arg)
         else:
             raise Exception('unhandled data type {}'.format(data_type))
 
+        assert len(data) == arg_len
         file.write(bytes([arg_len]))
-        file.write(data)
+
+        if arg_len:
+            print(' ', data)
+            file.write(data)
+
+    if not args:
+        file.write(b'\x00')
+
+
+def unserialize_stream_id(data):
+    stream_id = 0
+    length = 0
+    for index, byte_value in zip(range(len(data)), data):
+        stream_id <<= 8
+        stream_id |= byte_value
+        length = index + 1
+        if byte_value >= 0x10:
+            break
+
+    return (stream_id, data[:length])
+
+
+def serialize_stream_id(num):
+    assert num >= 0x10
+    length = max(num.bit_length() // 8 + 1, 2)
+    return num.to_bytes(length, 'big', signed=False)
