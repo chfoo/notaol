@@ -50,21 +50,21 @@ class InitPayload(BasePayload):
 
     def __init__(self):
         self.platform = Platform.windows
-        self.client_version = 157 << 8 | 17
-        self.build_num = 0x61
-        self.machine_memory = 0
+        self.client_version = 139 << 8 | 109
+        self.build_num = 0x0
+        self.machine_memory = 16
         self.app_memory = 0
         self.pc_type = 0
         self.release_month = 5
         self.release_day = 15
         self.customer_class = 0
-        self.timestamp = 94144805
+        self.timestamp = 1303539237
         self.dos_version = 192 << 8
-        self.session_flags = 0xd114
-        self.video_type = 3
-        self.cpu_type = 32
+        self.session_flags = 0xc014
+        self.video_type = 8
+        self.cpu_type = 5
         self.media_type = 0
-        self.windows_version = 4 << 8 | 1
+        self.windows_version = 4 << 8 | 10
         self.unknown1 = 0
         self.windows_mem_type = 1
         self.horizontal_res = 1024
@@ -77,7 +77,7 @@ class InitPayload(BasePayload):
         self.language_3 = 0
         self.language_4 = 0
         self.unknown2 = 1
-        self.speed = 0xb207
+        self.speed = 0x17
 
     def __str__(self):
         return '<INIT Payload>'
@@ -127,10 +127,10 @@ class InitPayload(BasePayload):
             self.speed = results[28]
             assert len(results) == 29
 
-    def to_bytes(self, length=TYPE_2_LENGTH):
+    def to_bytes(self, length=TYPE_1_LENGTH):
         '''Convert to bytes.'''
         if length == self.TYPE_1_LENGTH:
-            return self.field_struct_2.pack(
+            return self.field_struct_1.pack(
                 self.platform,
                 self.client_version,
                 self.build_num,
