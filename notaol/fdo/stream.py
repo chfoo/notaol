@@ -31,7 +31,7 @@ class AtomStream(object):
             atom_def = item[0]
             args = item[1:]
 
-        serialize.serialize(buffer, atom_def, *args)
+            serialize.serialize(buffer, atom_def, *args)
 
         return buffer.getvalue()
 
