@@ -119,7 +119,7 @@ class Client(object):
         yield from self._write_packet(packet)
 
     @asyncio.coroutine
-    def _write_packet(self, packet, drain=False):
+    def _write_packet(self, packet):
         packet.tx_seq = self._sequence_info.transmit
         packet.rx_seq = self._sequence_info.receive
 
