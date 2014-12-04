@@ -122,6 +122,7 @@ class Client(object):
     def _write_packet(self, packet):
         packet.tx_seq = self._sequence_info.transmit
         packet.rx_seq = self._sequence_info.receive
+        packet.compute_checksum()
 
         yield from self._stream.write_packet(packet)
 
