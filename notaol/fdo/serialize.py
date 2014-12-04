@@ -18,10 +18,12 @@ class AtomTypeComp(enum.IntEnum):
 
 
 def get_atom_type(num):
+    # TODO: figure out what this means
     return num >> 5
 
 
 def get_atom_value(num):
+    # TODO: figure out what this means
     return num & 0x1f
 
 
@@ -145,6 +147,7 @@ def serialize(file, atom_def, *args):
 
 
 def unserialize_stream_id(data):
+    # FIXME: this is bogus!
     stream_id = 0
     length = 0
     for index, byte_value in zip(range(len(data)), data):
@@ -158,6 +161,7 @@ def unserialize_stream_id(data):
 
 
 def serialize_stream_id(num):
+    # FIXME: this is bogus!
     assert num >= 0x10
     length = max(num.bit_length() // 8 + 1, 2)
     return num.to_bytes(length, 'big', signed=False)
