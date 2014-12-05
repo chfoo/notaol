@@ -20,8 +20,6 @@ class AtomStream(object):
         self.stream_id, stream_id_bytes = serialize.unserialize_stream_id(data)
         self.atoms = []
 
-        for item in serialize.unserialize(data[len(stream_id_bytes):]):
-            atom_protocol_id, atom_id, name, arg_length, arg = item
         for item in serialize.unserialize(self.atom_protocol_id, data[len(stream_id_bytes):]):
             self.atom_protocol_id, atom_id, name, arg_length, arg = item
 

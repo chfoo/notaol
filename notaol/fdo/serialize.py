@@ -27,7 +27,6 @@ def get_atom_value(num):
     return num & 0x1f
 
 
-def unserialize(data):
 def unserialize(last_protocol_id, data):
     index = 0
 
