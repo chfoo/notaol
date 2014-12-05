@@ -70,6 +70,7 @@ class Client(object):
         else:
             _logger.debug('Unhandled packet')
             self._sequence_info.receive = packet.tx_seq
+            self._sequence_info.transmit = packet.rx_seq
 
             yield from self._incoming_packet_condition.acquire()
             self._incoming_packet = packet
@@ -120,11 +121,14 @@ class Client(object):
 
     @asyncio.coroutine
     def _write_packet(self, packet):
+        if packet.type == PacketType.data:
+            self._sequence_info.increment_transmit()
+        
         packet.tx_seq = self._sequence_info.transmit
         packet.rx_seq = self._sequence_info.receive
         packet.compute_checksum()
 
         yield from self._stream.write_packet(packet)
 
-        if packet.type in (PacketType.init, PacketType.data):
+        if packet.type == PacketType.init:
             self._sequence_info.increment_transmit()
