@@ -28,6 +28,7 @@ def get_atom_value(num):
 
 
 def unserialize(data):
+def unserialize(last_protocol_id, data):
     index = 0
 
     while index < len(data):
