@@ -7,11 +7,13 @@ class AtomStream(object):
 
     Attributes:
         stream_id (int): Stream ID.
+        atom_protocol_id (int): Last protocol ID for this stream.
         atoms (list): A list of tuples. The first item in the tuple is
             a Atom. The remainder of the tuple is the argument.
     '''
     def __init__(self):
         self.stream_id = None
+        self.atom_protocol_id = 0
         self.atoms = None
 
     def parse(self, data):
@@ -20,6 +22,8 @@ class AtomStream(object):
 
         for item in serialize.unserialize(data[len(stream_id_bytes):]):
             atom_protocol_id, atom_id, name, arg_length, arg = item
+        for item in serialize.unserialize(self.atom_protocol_id, data[len(stream_id_bytes):]):
+            self.atom_protocol_id, atom_id, name, arg_length, arg = item
 
             self.atoms.append((name, arg))
 
