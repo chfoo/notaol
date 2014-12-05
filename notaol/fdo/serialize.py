@@ -1,6 +1,8 @@
 import enum
 import struct
 
+import notaol.fdo.stream
+
 from notaol.fdo.atomdatatype import AtomDataType
 from notaol.fdo.datatype import DataType
 from notaol.fdo.atomdef import Atom
@@ -99,13 +101,19 @@ def unserialize(last_protocol_id, data):
         last_protocol_id = atom_protocol_id
 
         try:
-            name = Atom((atom_protocol_id, atom_id))
+            atom_def = Atom((atom_protocol_id, atom_id))
+            data_type = getattr(AtomDataType, atom_def.name)
         except ValueError:
-            name = '(unknown atom)'
+            atom_def = '(unknown atom)'
+            data_type = None
 
-#         print(atom_protocol_id, atom_id, name, arg_length, arg)
+#         print(atom_protocol_id, atom_id, atom_def, arg_length, arg)
+        
+        if data_type == DataType.stream:
+            atom_stream = notaol.fdo.stream.AtomStream()
+            atom_stream.parse(arg)
 
-        yield (atom_protocol_id, atom_id, name, arg_length, arg)
+        yield (atom_protocol_id, atom_id, atom_def, arg_length, arg)
 
 
 def serialize(file, atom_def, *args):
