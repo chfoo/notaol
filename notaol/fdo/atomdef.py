@@ -3,75 +3,136 @@ import enum
 
 class AtomProtocol(enum.IntEnum):
     ACT = 2
-    '''Responsible for controling the action streams in a form'''
+    '''Associates actions with objects
+
+    Responsible for controling the action streams in a form
+    '''
     ACTIVEX = 54
+    '''Implements forms with ActiveX (TM) controls'''
     AD = 39
+    '''Address: Maintains address list'''
     ADP = 66
+    '''Asynchronous Data: Handles large chunks of data transfers'''
     APP = 40
     ARTEXP = 62
     ASYNC = 13
-    '''Handles messageboxes and screen name issues'''
+    '''Async: Miscellaneous functions
+
+    Handles messageboxes and screen name issues'''
     BLANK = 52
     BUDDY = 73
     BUF = 4
-    '''Used to handle the client buffer system. These buffers hold data sent to the host or stored in main.idx'''
+    '''Buffer: Handles data packets
+
+    Used to handle the client buffer system. These buffers hold data sent to the host or stored in main.idx'''
     CCL = 34
+    '''Communications Control Language'''
     CHART = 23
+    '''Provides charting functions'''
     CHAT = 11
+    '''Provides chat functions'''
     CM = 10
-    '''Manages all the *.tol tools in the /tool/ directory. Verifys tools for TODs and replacements'''
+    '''Code Manager: Handles code management
+
+    Manages all the *.tol tools in the /tool/ directory. Verifys tools for TODs and replacements
+    '''
     COMIT = 74
     DE = 3
-    '''Works directly with client buffers to extract and store data from objects'''
+    '''Data Manager: Handles data extraction
+
+    Works directly with client buffers to extract and store data from objects'''
     DICE = 57
+    '''Device Independent Connectivity Engine
+
+    Handles client computer connectivity
+    '''
     DOC = 31
     DOD = 27
+    '''Progressive Rendering: Handles progressive rendering'''
     DPC = 76
+    EXAPI = 26
+    '''External API: Handles external applications'''
     FM = 8
+    '''File Manager: Handles file management'''
     GALLERY = 56
+    '''Gallery: Handles thumbnail images and their display'''
     HFS = 51
+    '''Host Forms Server: Handles host forms'''
     HTMLVIEW = 75
     IDB = 5
-    '''Used to store and retrieve data from main.idx'''
+    '''Database Manager: Maintains online database
+
+    Used to store and retrieve data from main.idx
+    '''
     IF = 15
-    '''Responsible for allowing the programmer to test conditions'''
+    '''Conditional: Handles conditional operations
+
+    Responsible for allowing the programmer to test conditions'''
     IMAGE = 22
+    '''Image Manager: Sets attributes for graphic displays'''
     IMGXFER = 21
+    '''Image Transfer: Handles image display'''
     IRC = 30
     JAVA = 49
     LM = 9
+    '''List Manager: Handles list management'''
     MAN = 1
-    '''Responsible for the structure of forms and creation of objects'''
+    '''Display Manager: Handles forms display
+
+    Responsible for the structure of forms and creation of objects
+    '''
     MAP = 69
     MAT = 16
     '''Responsible for setting flags used to define forms created with MAN'''
     MERC = 43
     MF = 63
     MIP = 17
+    '''Message Interchange: Handles message data transport'''
     MMI = 20
+    '''Multimedia Interface: Handles multimedia files and display'''
     MORG = 24
+    '''Multimedia organizer: Maintains personal filing cabinet'''
     MT = 42
+    '''Tool Manager: Manages client tools'''
     P3 = 35
+    '''Handles P3 communication'''
     PHONE = 60
     PICTALK = 29
+    '''Pictalk: Handles slideshow data streams'''
     PLUGIN = 64
     RADIO = 28
+    '''Captures and plays radio program streams'''
     RICH = 25
+    '''Handles enhanced text attributes'''
     SAGE = 70
     SAP = 77
     SEC_IP = 55
     SLIDER = 65
     SM = 14
-    '''A collection of shorthand atoms'''
+    '''Shorthand Manager: Replaces lengthy atom streams
+
+    A collection of shorthand atoms
+    '''
     SPELL = 61
+    '''Spell: Invokes the spell dialog box'''
     UNI = 0
-    '''Responsible for governing the flow of streams'''
+    '''Universal: Controls atom streams
+
+    Responsible for governing the flow of streams
+    '''
     VAR = 12
-    '''Responsible for movign data in and out of the client registers'''
+    '''Variable: Associates variables with objects
+
+    Responsible for movign data in and out of the client registers
+    '''
     VID = 53
+    '''Video: Handles video images and display'''
     VRM = 47
+    '''Visual Rainman: Manages Rainman forms'''
     WWW = 48
+    '''Handles web browser forms'''
     XFER = 7
+    '''File Transfer: Handles file transfer'''
 
 
 class Atom(tuple, enum.Enum):
@@ -612,7 +673,6 @@ class Atom(tuple, enum.Enum):
 
     dpc_exchange_account_info = (76, 0)
 
-    EXAPI = 26
     exapi_list_start_context = (26, 0)
     exapi_list_set_stream = (26, 1)
     exapi_list_attr_set_style = (26, 2)
